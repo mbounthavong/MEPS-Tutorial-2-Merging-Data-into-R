@@ -214,6 +214,8 @@ There are a lot of tutorials on how to use MEPS data with R. I found the [AHRQ M
 
 [David Ranzolin](https://daranzolin.github.io/) has a great [presentation](https://rstudio-pubs-static.s3.amazonaws.com/116317_e6922e81e72e4e3f83995485ce686c14.html#/2) on how to use the `mutate` function in R. I liked the examples he used, and the presentation is succint and informative. 
 
+Another great resource is by [Joachim Schork](https://statisticsglobe.com/joachim-schork/), author and founder of [Statistics Globe](https://statisticsglobe.com/) who wrote a great [blog](https://statisticsglobe.com/sum-duplicate-rows-r) about collapsing data on a unique identifier.
+
 I learned how to use the `left_join` function from this [blog](https://www.infoworld.com/article/3454356/how-to-merge-data-in-r-using-r-merge-dplyr-or-datatable.html) by [Sharon Machlis](https://www.infoworld.com/author/Sharon-Machlis/) on [InfoWorld](https://www.infoworld.com). She uses `dplyr` to invoke the `left_join` function which is a based on `SQL` language. 
 
 This is a work in progress, and I may update this in the future. 
