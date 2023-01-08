@@ -112,7 +112,7 @@ We can create an indicator variable that will be unique to the patient for havin
 knitr::include_graphics("Figure 5.jpg")
 ```
 
-We create the indicator and call it `diabetes`, which has is defined as `icd10cdx == "E11"`. We will code this as `0` for no diabetes and `1` for diabetes. Then, we count the number of time a patient as `E11` in their `icd10cdx` column. 
+We create the indicator and call it `diabetes`, which is defined as `icd10cdx == "E11"`. We will code this as `0` for no diabetes and `1` for diabetes. Then, we count the number of time a patient as `E11` in their `icd10cdx` column. 
 
 ```{r, echo = TRUE, message = FALSE, warning = FALSE}
 ## Change to unique subject (each row is a unique subject)
