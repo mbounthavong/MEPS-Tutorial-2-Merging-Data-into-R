@@ -1979,10 +1979,10 @@ observations. We want to make this dataframe manageable, so we’ll create
 a limited dataframe with only the variables we’re interested in. To do
 this, we’ll use the <code>subset()</code> function.</p>
 <p>For this exercise, we’ll keep the <code>dupersid</code>,
-<code>varpsu.y</code>, <code>varsry.y</code>, <code>perwt20f.y</code>,
+<code>varpsu.x</code>, <code>varsry.x</code>, <code>perwt20f.x</code>,
 and <code>icd10cdx</code> variables by using the <code>subset()</code>
 function. We’ll call our reduced dataframe <code>keep_mep2</code>.</p>
-<pre class="r"><code>keep_meps2 &lt;- subset(total, select = c(&quot;dupersid&quot;, &quot;varpsu.y&quot;, &quot;varstr.y&quot;, &quot;perwt20f.y&quot;, &quot;icd10cdx&quot;))</code></pre>
+<pre class="r"><code>keep_meps2 &lt;- subset(total, select = c(&quot;dupersid&quot;, &quot;varpsu.x&quot;, &quot;varstr.x&quot;, &quot;perwt20f.x&quot;, &quot;icd10cdx&quot;))</code></pre>
 </div>
 <div id="add-an-indicator-for-a-specific-icd10-diagnostic-code" class="section level2">
 <h2>Add an indicator for a specific ICD10 diagnostic code</h2>
