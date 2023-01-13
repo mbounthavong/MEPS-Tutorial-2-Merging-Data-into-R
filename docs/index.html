@@ -1981,7 +1981,12 @@ this, we’ll use the <code>subset()</code> function.</p>
 <p>For this exercise, we’ll keep the <code>dupersid</code>,
 <code>varpsu.x</code>, <code>varsry.x</code>, <code>perwt20f.x</code>,
 and <code>icd10cdx</code> variables by using the <code>subset()</code>
-function. We’ll call our reduced dataframe <code>keep_mep2</code>.</p>
+function. We’ll call our reduced dataframe <code>keep_mep2</code>.
+(Note: The <code>*.x</code> indicates the table on the left. We want to
+keep the <code>varpsu</code>, <code>varstr</code>, and
+<code>perwt20f</code> from the <code>hc2020</code> table. The
+<code>mc2020</code> table has duplicate variables that are denoted by
+<code>*.y</code>. )</p>
 <pre class="r"><code>keep_meps2 &lt;- subset(total, select = c(&quot;dupersid&quot;, &quot;varpsu.x&quot;, &quot;varstr.x&quot;, &quot;perwt20f.x&quot;, &quot;icd10cdx&quot;))</code></pre>
 </div>
 <div id="add-an-indicator-for-a-specific-icd10-diagnostic-code" class="section level2">

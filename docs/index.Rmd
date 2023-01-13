@@ -94,7 +94,7 @@ knitr::include_graphics("Figure 4.jpg")
 ## Reduce dataframe to a few variables
 Our `total` dataframe has 1481 variables and 80,802 observations. We want to make this dataframe manageable, so we'll create a limited dataframe with only the variables we're interested in. To do this, we'll use the `subset()` function. 
 
-For this exercise, we'll keep the `dupersid`, `varpsu.x`, `varsry.x`, `perwt20f.x`, and `icd10cdx` variables by using the `subset()` function. We'll call our reduced dataframe `keep_mep2`. 
+For this exercise, we'll keep the `dupersid`, `varpsu.x`, `varsry.x`, `perwt20f.x`, and `icd10cdx` variables by using the `subset()` function. We'll call our reduced dataframe `keep_mep2`. (Note: The `*.x` indicates the table on the left. We want to keep the `varpsu`, `varstr`, and `perwt20f` from the `hc2020` table. The `mc2020` table has duplicate variables that are denoted by `*.y`. )
 
 ```{r, echo = TRUE}
 keep_meps2 <- subset(total, select = c("dupersid", "varpsu.x", "varstr.x", "perwt20f.x", "icd10cdx"))
