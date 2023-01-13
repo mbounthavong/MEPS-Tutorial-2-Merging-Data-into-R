@@ -13,7 +13,7 @@ output:
 
 
 ## Introduction
-We want to merge the Full-Year Consolidated Data file with the Medical Conditions file so that we can identify patients with a diagnosis of HIV. 
+We want to merge the Full-Year Consolidated Data file with the Medical Conditions file so that we can identify patients with a diagnosis of diabetes. 
 
 ## Load MEPS data
 We need to lead the MEPS Full-Year Consolidated Data file and the Medical Conditions file from 2020. There are two methods to loading MEPS data into R. Method 1 requires you to know the name of the file. For example, the Medical Conditions file from 2020 is named `h222`. In Method 2, you need to know the `type = ` of data you want to load. For example, the Medical Conditions file is named `CONDITIONS`. 
@@ -94,7 +94,7 @@ knitr::include_graphics("Figure 4.jpg")
 ## Reduce dataframe to a few variables
 Our `total` dataframe has 1481 variables and 80,802 observations. We want to make this dataframe manageable, so we'll create a limited dataframe with only the variables we're interested in. To do this, we'll use the `subset()` function. 
 
-For this exercise, we'll keep the `dupersid`, `varpsu.x`, `varsry.x`, `perwt20f.x`, and `icd10cdx` variables by using the `subset()` function. We'll call our reduced dataframe `keep_mep2`. (Note: The `*.x` indicates the table on the left. We want to keep the `varpsu`, `varstr`, and `perwt20f` from the `hc2020` table. The `mc2020` table has duplicate variables that are denoted by `*.y`. )
+For this exercise, we'll keep the `dupersid`, `varpsu.x`, `varsry.x`, `perwt20f.x`, and `icd10cdx` variables by using the `subset()` function. We'll call our reduced dataframe `keep_mep2`. (Note: The `*.x` indicates the table on the left. We want to keep the `varpsu`, `varstr`, and `perwt20f` from the `hc2020` table. The `mc2020` table has duplicate variables that are denoted by `*.y`.)
 
 ```{r, echo = TRUE}
 keep_meps2 <- subset(total, select = c("dupersid", "varpsu.x", "varstr.x", "perwt20f.x", "icd10cdx"))
@@ -112,14 +112,14 @@ We can create an indicator variable that will be unique to the patient for havin
 knitr::include_graphics("Figure 5.jpg")
 ```
 
-We create the indicator and call it `diabetes`, which is defined as `icd10cdx == "E11"`. We will code this as `0` for no diabetes and `1` for diabetes. Then, we count the number of time a patient as `E11` in their `icd10cdx` column. 
+We create the indicator and call it `diabetes`, which is defined as `icd10cdx == "E11"`. We will code this as `0` for no diabetes and `1` for diabetes. Then, we count the number of time a patient as `E11` in their `icd10cdx` column. I added the following option to the code (` | is.na(total$icd10cdx)`) because I want to make sure that all patients in the `total` table that do not have an ICD-10 code for `E11` is coded as `0`. There may be some patients that have `NA` or missing data in the `icd10cdx` variable. If the `icd10cdx` value is `NA`, this may not be coded with a `0`. Hence, we have to add the ` | is.na(total$icd10cdx` code to ensure that we get a value of `0`. 
 
 ```{r, echo = TRUE, message = FALSE, warning = FALSE}
 ## Change to unique subject (each row is a unique subject)
 #### Generate a variable to identify diabetes diagnosis for repeated rows
 library("tidyverse")  ## Load tidyverse
 
-keep_meps2$diabetes[total$icd10cdx != "E11"] = 0
+keep_meps2$diabetes[total$icd10cdx != "E11" | is.na(total$icd10cdx)] = 0
 keep_meps2$diabetes[total$icd10cdx == "E11"] = 1
 
 table(keep_meps2$diabetes) ## Visualize the number of patients with diabetes and no diabetes
@@ -131,6 +131,16 @@ keep_meps2 <- keep_meps2 %>%
   ungroup
 table(keep_meps2$diabetes_indicator)
 ```
+
+We can also add labels to our `diabetes` variable. 
+
+```{r, echo = TRUE, message = FALSE, warning == FALSE}
+keep_meps2$diabetes_indicator <- factor(keep_meps2$diabetes_indicator, 
+                                        levels = c(0 , 1), 
+                                        labels = c("No - Diabetes", "Yes - Diabetes"))
+table(keep_meps2$diabetes_indicator)
+```
+
 
 According to our results, there were 17,295 events where a patient had one diagnostic code for `E11` and 939 events where a patient had two diagnostic codes for `E11`. How did this occur? MEPS public files only list the first three digits of the ICD-10 code to protect the identity of the patient. The ICD-10 diagnostic code has more digits beyond the first three. For example, an ICD-10 diagnosis for Type 2 diabetes with diabetic chronic kidney disease is `E11.22`. Hence, there will be patients with unique ICD-10 codes that may appear identical because only the first three digits are present in the MEPS public files. 
 
