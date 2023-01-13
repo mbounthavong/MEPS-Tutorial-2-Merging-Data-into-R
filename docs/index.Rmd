@@ -132,23 +132,13 @@ keep_meps2 <- keep_meps2 %>%
 table(keep_meps2$diabetes_indicator)
 ```
 
-We can also add labels to our `diabetes` variable. 
-
-```{r, echo = TRUE, message = FALSE, warning == FALSE}
-keep_meps2$diabetes_indicator <- factor(keep_meps2$diabetes_indicator, 
-                                        levels = c(0 , 1), 
-                                        labels = c("No - Diabetes", "Yes - Diabetes"))
-table(keep_meps2$diabetes_indicator)
-```
-
-
 According to our results, there were 17,295 events where a patient had one diagnostic code for `E11` and 939 events where a patient had two diagnostic codes for `E11`. How did this occur? MEPS public files only list the first three digits of the ICD-10 code to protect the identity of the patient. The ICD-10 diagnostic code has more digits beyond the first three. For example, an ICD-10 diagnosis for Type 2 diabetes with diabetic chronic kidney disease is `E11.22`. Hence, there will be patients with unique ICD-10 codes that may appear identical because only the first three digits are present in the MEPS public files. 
 
 In our example, we have patients with 1 and 2 ICD-10 diagnostic codes for `E11`. We would like to create a binary indicator of diabetes, so we need to take the current information and transform the variable `diabetes` in the `keep_meps` dataframe into a new variable that only has `0` and `1`. 
 
 We can do this by combining the `mutate` function with the `ifelse` function. See the code below:
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
 keep_meps2 <- keep_meps2 %>% 
   group_by(dupersid) %>%
   mutate(diabetes_binary = ifelse(diabetes_indicator >= 1, 1, 0), na.rm = TRUE) %>%
@@ -186,7 +176,7 @@ $~$
 There are two methods to collapse the dataframe to unique patients:
 
 **Method 1:** Use the `dplyr` package and the `summarize_all` function with the `list()` function. 
-```{r, echo = TRUE, warning = FALSE}
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
 #### Collapse the repeated rows to a single unique subject
 meps_per <- keep_meps2 %>% 
   group_by(dupersid) %>%
@@ -198,7 +188,7 @@ table(meps_per$diabetes_binary)
 $~$
 
 **Method 2:** Use the `summarise` function. This method will generate a dataframe with two variables (`dupersid` and `diabetes_binary2`). 
-```{r, echo = TRUE}
+```{r, echo = TRUE, message = FALSE, warning= FALSE}
 meps_per2 <- keep_meps2 %>%  ### An alternative method but only generates two variables (dupersid and diabetes_binary2)
   group_by(dupersid) %>%
   summarise(diabetes_binary2 = mean(diabetes_binary)) %>%
